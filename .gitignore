@@ -1,0 +1,6 @@
+.idea
+node_modules
+app/lib
+*.swp
+Gemfile.lock
+client/pkg
