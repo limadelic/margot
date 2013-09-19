@@ -1,4 +1,4 @@
-NODES = [
+STEPS = [
   'include_recipe',
   'core_wait_for'
 ]
@@ -11,3 +11,7 @@ def node
   }
 }
 end
+
+SERVERS = {
+  app: '../sample/application'
+}

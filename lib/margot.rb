@@ -1,8 +1,25 @@
 require_relative '../sample/settings'
 
+@servers = {}
+
 def method_missing(m, *args)
-  return super unless NODES.include? m.to_s
-  p "#{m} #{args[0]}"
+  return super unless STEPS.include? m.to_s
+  @servers[@current] << {
+    type: m.to_s,
+    name: args[0]
+  }
 end
 
-require_relative '../sample/application'
+SERVERS.each do |k, v|
+  @current = k
+  @servers[@current] = []
+  require_relative v
+end
+
+@servers.each do |name, server|
+  p "Server #{name}"
+  server.each do |step|
+    p "#{step[:type]} #{step[:name]}"
+  end
+end
+
