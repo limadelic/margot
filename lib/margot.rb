@@ -2,6 +2,8 @@ require_relative '../sample/settings'
 
 @servers = {}
 
+def node; NODE end
+
 def method_missing(m, *args)
   return super unless STEPS.include? m.to_s
   @servers[@current] << {

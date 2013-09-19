@@ -3,14 +3,12 @@ STEPS = [
   'core_wait_for'
 ]
 
-def node
-{
+NODE = {
   servers: {
     hub_internal: 'hub_internal',
     hub_external: 'hub_internal'
   }
 }
-end
 
 SERVERS = {
   app: '../sample/application'
