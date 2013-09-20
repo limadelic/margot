@@ -5,15 +5,13 @@ class Margot
 
   attr_reader :node
 
-  def init(out, settings)
-    @out = out
-    @servers = settings[:servers]
-    @steps = settings[:steps]
+  def initialize
     @node = HashSpy.new
   end
 
-  def run(out, settings)
-    init out, settings
+  def run(steps, servers)
+    @steps = steps
+    @servers = servers
     parse
     save
   end
@@ -36,7 +34,7 @@ class Margot
   end
 
   def save
-    File.open(@out, 'w') {|f| f.write @servers.to_json }
+    File.open('status.json', 'w') {|f| f.write @servers.to_json }
   end
 
 end

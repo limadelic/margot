@@ -1,8 +1,5 @@
-margot 'ultipro.json',
-  steps: [
+run [
     'include_recipe',
     'core_wait_for'
   ],
-  servers: {
-    app: '../sample/application'
-  }
+  app: '../sample/application'
