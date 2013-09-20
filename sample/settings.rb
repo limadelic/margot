@@ -1,15 +1,8 @@
-STEPS = [
-  'include_recipe',
-  'core_wait_for'
-]
-
-NODE = {
+margot 'ultipro.json',
+  steps: [
+    'include_recipe',
+    'core_wait_for'
+  ],
   servers: {
-    hub_internal: 'hub_internal',
-    hub_external: 'hub_internal'
+    app: '../sample/application'
   }
-}
-
-SERVERS = {
-  app: '../sample/application'
-}
