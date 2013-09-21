@@ -1,1 +1,3 @@
-alert(servers.app[0].type);
+function Servers($scope) {
+  $scope.servers = servers;
+}
