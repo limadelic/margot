@@ -34,7 +34,9 @@ class Margot
   end
 
   def save
-    File.open('status.json', 'w') {|f| f.write @servers.to_json }
+    File.open('servers.jsonp', 'w') do |f|
+      f.write "servers = #{@servers.to_json};"
+    end
   end
 
 end
