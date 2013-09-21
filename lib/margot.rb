@@ -7,11 +7,14 @@ class Margot
 
   def initialize
     @node = HashSpy.new
+    @servers = {}
   end
 
-  def run(steps, servers)
-    @steps = steps
-    @servers = servers
+  def run(opts)
+    @steps = opts[:steps]
+    @cookbooks = opts[:cookbooks]
+    @nodes = opts[:nodes]
+
     parse
     save
   end
@@ -20,16 +23,17 @@ class Margot
     return unless @steps.include? m.to_s
 
     @servers[@current] << {
-      type: m.to_s,
-      name: args[0].to_s
+      step: m.to_s,
+      cookbook: "#{args[0].to_s}".split('::').first,
+      name: "#{args[0].to_s}".split('::').last
     }
   end
 
   def parse
-    @servers.each do |name, role|
-      @current = name
+    @nodes.each do |node|
+      @current = node
       @servers[@current] = []
-      require_relative role
+      require_relative "#{@cookbooks}/#{node}/recipes/default.rb"
     end
   end
 

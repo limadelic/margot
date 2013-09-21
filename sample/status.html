@@ -5,9 +5,8 @@
   <title>margot</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-
+  <script src="lib/jquery.min.js"></script>
+  <script src="lib/angular.min.js"></script>
   <link href="lib/bootstrap.min.css" rel="stylesheet">
   <script src="lib/bootstrap.min.js"></script>
 
@@ -16,9 +15,13 @@
 </head>
 </html>
 <body>
-  <h3 ng-controller="Servers">
-    <span ng-repeat="step in servers.app" class="label label-default">
+<div ng-controller="Servers">
+  <h3 ng-repeat="(name, server) in servers">
+    <span ng-repeat="step in server"
+          class="label label-default"
+          style="margin-left: 10px;">
       {{ step.name }}
     </span>
   </h3>
+</div>
 </body>
