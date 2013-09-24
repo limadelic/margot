@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app="status">
 <head lang="en">
   <meta charset="utf-8">
   <title>margot</title>
@@ -21,10 +21,10 @@
 <body>
 <div ng-controller="Servers">
   <div ng-repeat="(name, server) in servers" class="panel-body">
-    <div class="label label-info">
+    <div class="label label-primary">
       {{ name }}
     </div>
-    <div ng-repeat="step in server" class="label label-default">
+    <div ng-repeat="step in server" class="label label-{{ step.done | status_style }}">
       {{ step.name }}
     </div>
   </div>
