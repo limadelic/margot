@@ -54,8 +54,19 @@ class Margot
     @nodes.each do |name, suffix|
       log = File.read "#{@logs}/#{@env}#{suffix}/chef_deploy.log"
       @servers[name].each do |step|
-        step[:done] = log.include? step[:full_name]
+        step[:done] = log.include? log_id step
       end
+    end
+  end
+
+  def log_id(step)
+    case step[:step]
+    when 'core_wait_for'
+      "core_wait_for[#{@env}#{@nodes[step[:name].to_sym]}]"
+    when 'core_set'
+      "core_set[#{step[:name]}]"
+    else
+      step[:full_name]
     end
   end
 
