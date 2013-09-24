@@ -8,8 +8,8 @@ def self.method_missing(m, *args)
   super unless @margot.handle m, args
 end
 
-def run(name, opts)
-  @margot.run opts
+def run(env, opts)
+  @margot.run env, opts
 end
 
 require_relative '../sample/settings'
