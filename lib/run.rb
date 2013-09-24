@@ -8,7 +8,7 @@ def self.method_missing(m, *args)
   super unless @margot.handle m, args
 end
 
-def run(opts)
+def run(name, opts)
   @margot.run opts
 end
 

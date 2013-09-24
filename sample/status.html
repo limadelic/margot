@@ -7,8 +7,12 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <script src="lib/jquery.min.js"></script>
   <script src="lib/angular.min.js"></script>
-  <link href="lib/bootstrap.min.css" rel="stylesheet">
   <script src="lib/bootstrap.min.js"></script>
+
+  <link href="lib/bootstrap.min.css" rel="stylesheet">
+  <link href="lib/bootstrap-glyphicons.css" rel="stylesheet">
+  <link href="lib/font-awesome.min.css" rel="stylesheet">
+  <link href="status.css" rel="stylesheet">
 
   <script src="servers.jsonp"></script>
   <script src="status.js"></script>
@@ -16,12 +20,13 @@
 </html>
 <body>
 <div ng-controller="Servers">
-  <h3 ng-repeat="(name, server) in servers">
-    <span ng-repeat="step in server"
-          class="label label-default"
-          style="margin-left: 10px;">
+  <div ng-repeat="(name, server) in servers" class="panel-body">
+    <div class="label label-info">
+      {{ name }}
+    </div>
+    <div ng-repeat="step in server" class="label label-default">
       {{ step.name }}
-    </span>
-  </h3>
+    </div>
+  </div>
 </div>
 </body>

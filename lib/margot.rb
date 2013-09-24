@@ -30,7 +30,7 @@ class Margot
   end
 
   def parse
-    @nodes.each do |node|
+    @nodes.each_key do |node|
       @current = node
       @servers[@current] = []
       require_relative "#{@cookbooks}/#{node}/recipes/default.rb"
