@@ -3,16 +3,27 @@ angular
   .controller('Servers', function ($scope) {
     $scope.servers = servers;
   })
-  .filter('status_style', function(){
+  .filter('step_style', function(){
 
-    var styles = {
+    var default_style = {
       done: 'success',
       pending: 'default',
-      skipped: 'warning',
+      skipped: 'default',
       current: 'success striped active'
     };
 
-    return function(status) {
-      return styles[status];
+    var styles = {
+      core_wait_for: {
+        done: 'warning',
+        pending: 'default',
+        skipped: 'default',
+        current: 'warning striped active'
+      },
+      include_recipe: default_style,
+      core_set: default_style
+    };
+
+    return function(step) {
+      return styles[step.step][step.status];
     }
   });
