@@ -4,7 +4,15 @@ angular
     $scope.servers = servers;
   })
   .filter('status_style', function(){
-    return function(is_done) {
-      return is_done ? 'success' : 'default'
+
+    var styles = {
+      done: 'success',
+      pending: 'default',
+      skipped: 'warning',
+      current: 'success striped active'
+    };
+
+    return function(status) {
+      return styles[status];
     }
   });

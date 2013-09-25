@@ -37,6 +37,7 @@ class Margot
       step: type,
       cookbook: name_tokens.first,
       name: name_tokens.last,
+      status: 'pending',
       full_name: name_tokens.length == 1 ?
         "#{full_name}::default" : full_name
     }
@@ -52,11 +53,36 @@ class Margot
 
   def set_status
     @nodes.each do |name, suffix|
-      log = File.read "#{@logs}/#{@env}#{suffix}/chef_deploy.log"
-      @servers[name].each do |step|
-        step[:done] = log.include? log_id step
-      end
+      @log = File.read "#{@logs}/#{@env}#{suffix}/chef_deploy.log"
+      @steps = @servers[name]
+      set_status_from index_of_last_step_done + 1
     end
+  end
+
+  def set_status_from index
+    set_done_steps index if index > 0
+    set_current_step index if index < @steps.length - 1
+  end
+
+  def set_done_steps count
+    @steps.take(count).each do |step|
+      step[:status] = is_step_done?(step) ?
+        'done' : 'skipped'
+    end
+  end
+
+  def set_current_step index
+    @steps[index][:status] = 'current'
+  end
+
+  def is_step_done? step
+    @log.include? log_id step
+  end
+
+  def index_of_last_step_done
+    @steps.index @steps.reverse.find { |x| is_step_done? x }
+  rescue
+    -1
   end
 
   def log_id(step)
