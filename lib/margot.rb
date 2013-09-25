@@ -34,7 +34,7 @@ class Margot
     name_tokens = "#{full_name}".split '::'
 
     {
-      step: type,
+      type: type,
       cookbook: name_tokens.first,
       name: name_tokens.last,
       status: 'pending',
@@ -86,7 +86,7 @@ class Margot
   end
 
   def log_id(step)
-    case step[:step]
+    case step[:type]
     when 'core_wait_for'
       "core_wait_for[#{@env}#{@nodes[step[:name].to_sym]}]"
     when 'core_set'

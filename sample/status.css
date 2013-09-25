@@ -24,3 +24,8 @@
   width: 30px;
   margin-top: 10px;
 }
+
+.label .type {
+  font-weight: normal;
+  font-style: italic;
+}

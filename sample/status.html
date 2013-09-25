@@ -25,7 +25,7 @@
       {{ name }}
     </div>
     <div ng-repeat="step in server" class="label label-{{ step | step_style }}">
-      {{ step.name }}
+      <span class="type">{{ step.type | step_type }}:</span> {{ step.name | step_name }}
     </div>
   </div>
 </div>

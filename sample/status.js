@@ -3,7 +3,7 @@ angular
   .controller('Servers', function ($scope) {
     $scope.servers = servers;
   })
-  .filter('step_style', function(){
+  .filter('step_style', function () {
 
     var default_style = {
       done: 'success',
@@ -23,7 +23,19 @@ angular
       core_set: default_style
     };
 
-    return function(step) {
-      return styles[step.step][step.status];
+    return function (step) {
+      return styles[step.type][step.status];
+    }
+  })
+  .filter('step_type', function () {
+    return function (type) {
+      var tokens = type.split('_');
+      tokens.shift();
+      return tokens.join(' ');
+    }
+  })
+  .filter('step_name', function () {
+    return function (name) {
+      return name.replace(/\_/g,' ');
     }
   });
