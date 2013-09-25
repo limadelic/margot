@@ -34,6 +34,17 @@ angular
       return tokens.join(' ');
     }
   })
+  .filter('step_type_icon', function () {
+    var icons = {
+      include_recipe: 'wrench',
+      core_wait_for: 'time',
+      core_set: 'cog'
+    };
+
+    return function (type) {
+      return icons[type];
+    }
+  })
   .filter('step_name', function () {
     return function (name) {
       return name.replace(/\_/g,' ');
