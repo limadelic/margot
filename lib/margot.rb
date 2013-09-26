@@ -20,14 +20,26 @@ class Margot
 
   def run env, opts
     set_up env, opts
-    parse
-    set_status
+    read_nodes
     save
   end
 
+  def read_nodes
+    @nodes.each_key do |node|
+      @current = node
+
+      parse
+      split_log
+      set_status_from index_of_last_step_done + 1
+    end
+  end
+
+  def server; @servers[@current] end
+  def steps; server[:steps] end
+
   def handle(m, args)
     return unless @steps.include? m.to_s
-    @servers[@current] << parse_step(m.to_s, args[0].to_s)
+    server[:steps] << parse_step(m.to_s, args[0].to_s)
   end
 
   def parse_step(type, full_name)
@@ -44,43 +56,39 @@ class Margot
   end
 
   def parse
-    @nodes.each_key do |node|
-      @current = node
-      @servers[@current] = []
-      require_relative "#{@cookbooks}/#{node}/recipes/default.rb"
-    end
+    @servers[@current] = {
+      name: @current,
+      steps: []
+    }
+    require_relative "#{@cookbooks}/#{@current}/recipes/default.rb"
   end
 
-  def set_status
-    @nodes.each do |name, suffix|
-      @log = File.read "#{@logs}/#{@env}#{suffix}/chef_deploy.log"
-      @steps = @servers[name]
-      set_status_from index_of_last_step_done + 1
-    end
+  def split_log
+    server[:log] = File.read "#{@logs}/#{@env}#{@nodes[@current]}/chef_deploy.log"
   end
 
   def set_status_from index
     set_done_steps index if index > 0
-    set_current_step index if index < @steps.length - 1
+    set_current_step index if index < steps.length - 1
   end
 
   def set_done_steps count
-    @steps.take(count).each do |step|
+    steps.take(count).each do |step|
       step[:status] = is_step_done?(step) ?
         'done' : 'skipped'
     end
   end
 
   def set_current_step index
-    @steps[index][:status] = 'current'
+    steps[index][:status] = 'current'
   end
 
   def is_step_done? step
-    @log.include? log_id step
+    server[:log].include? log_id step
   end
 
   def index_of_last_step_done
-    @steps.index @steps.reverse.find { |x| is_step_done? x }
+    steps.index steps.reverse.find { |x| is_step_done? x }
   rescue
     -1
   end
